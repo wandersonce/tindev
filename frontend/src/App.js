@@ -1,10 +1,12 @@
 import React from 'react';
 
-import logo from './assets/logo.svg';
+import './App.css';
+
+import Login from './pages/Login/Login';
 
 function App() {
   return (
-    <img src={logo} alt="tindev logo" />
+    <Login />
   );
 }
 
