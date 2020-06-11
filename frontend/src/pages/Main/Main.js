@@ -13,7 +13,7 @@ export default function Main({ match }) { //* inside the match you will have all
 
     useEffect(() => {
         async function loadUsers() {
-            const response = await api.get('devs', {
+            const response = await api.get('devs', { //! The second parameter on a get request will be the headers
                 headers: {
                     user: match.params.id
                 },
@@ -23,6 +23,18 @@ export default function Main({ match }) { //* inside the match you will have all
         }
         loadUsers();
     }, [match.params.id]) // * Everytime that the params id be changed the function will be executed.
+
+    async function handleLike(id) {
+        console.log('like', id)
+    }
+
+    async function handleDislike(id) {
+        await api.post(`/devs/${id}/dislikes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
+            headers: { user: match.params.id },
+        })
+
+        setUsers(users.filter(user => user._id !== id));
+    }
 
     return (
         <div className="main-container">
@@ -37,10 +49,10 @@ export default function Main({ match }) { //* inside the match you will have all
                         </footer>
 
                         <div className="buttons">
-                            <button type="button">
+                            <button type="button" onClick={() => handleLike(user._id)} >
                                 <img src={like} alt="Like" />
                             </button>
-                            <button type="button">
+                            <button type="button" onClick={() => handleDislike(user._id)} >
                                 <img src={dislike} alt="Dislike" />
                             </button>
                         </div>
