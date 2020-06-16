@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { KeyboardAvoidingView, Platform, StyleSheet, Image, TextInput, TouchableOpacity, Text } from 'react-native';
 
 import logo from '../assets/logo.png';
 
+import api from '../services/api';
+
 export default function Login({ navigation }) {
     const [user, setUser] = useState('');
 
-    function handleLogin() {
-        console.log(user);
+    useEffect(() => {
+        AsyncStorage.getItem('user').then(user => {
+            if (user) {
+                navigation.navigate('Main', { user })
+            }
+        })
+    }, []);
 
-        navigation.navigate('Main');
+    async function handleLogin() {
+        const response = await api.post('/devs', { username: user });
+
+        const { _id } = response.data;
+
+        await AsyncStorage.setItem('user', _id);  //* AsyncStorage will work like a section from web and you keep your info logged. First parameter name that I will call, second value.
+
+        navigation.navigate('Main', { _id });
     }
     return (
         <KeyboardAvoidingView //! this will work only for IOS. The keyboard won't cover the view.
