@@ -24,7 +24,7 @@ export default function Login({ navigation }) {
 
         await AsyncStorage.setItem('user', _id);  //* AsyncStorage will work like a section from web and you keep your info logged. First parameter name that I will call, second value.
 
-        navigation.navigate('Main', { _id });
+        navigation.navigate('Main', { user: _id });
     }
     return (
         <KeyboardAvoidingView //! this will work only for IOS. The keyboard won't cover the view.

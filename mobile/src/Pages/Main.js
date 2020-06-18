@@ -1,38 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+
+import api from '../services/api';
 
 import logo from '../assets/logo.png';
 import like from '../assets/like.png';
 import dislike from '../assets/dislike.png';
 
-export default function Main() {
+export default function Main({ navigation }) {
+    const id = navigation.getParam('user');
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        async function loadUsers() {
+            const response = await api.get('devs', { //! The second parameter on a get request will be the headers
+                headers: {
+                    user: id
+                },
+            })
+
+            setUsers(response.data);
+        }
+        loadUsers();
+    }, [id]) // * Everytime that the params id be changed the function will be executed.
+
+    async function handleLike(id) {
+        await api.post(`/devs/${id}/likes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
+            headers: { user: id },
+        })
+
+        setUsers(users.filter(user => user._id !== id));
+    }
+
+    async function handleDislike(id) {
+        await api.post(`/devs/${id}/dislikes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
+            headers: { user: id },
+        })
+
+        setUsers(users.filter(user => user._id !== id));
+    }
+
+
     return (
         <SafeAreaView style={styles.container}>
             <Image style={styles.logo} source={logo} />
             <View style={styles.cardContainer}>
-                <View style={[styles.card, { zIndex: 3 }]} >
-                    <Image style={styles.avatar} source={{ uri: 'https://avatars2.githubusercontent.com/u/2254731?v=4' }} />
-                    <View style={styles.footer}>
-                        <Text style={styles.name}> Wanderson Castro</Text>
-                        <Text style={styles.bio} numberOfLines={3}> CTO na @Rocketseat. Apaixonado pelas melhores tecnologias de desenvolvimento web e mobile.</Text>
+                {user.map((user, index) => (
+                    <View key={user._id} style={[styles.card, { zIndex: user.length - index }]} >
+                        <Image style={styles.avatar} source={{ uri: user.avatar }} />
+                        <View style={styles.footer}>
+                            <Text style={styles.name}> {user.name}</Text>
+                            <Text style={styles.bio} numberOfLines={3}> {user.bio}</Text>
+                        </View>
                     </View>
-                </View>
-
-                <View style={[styles.card, { zIndex: 2 }]} >
-                    <Image style={styles.avatar} source={{ uri: 'https://avatars2.githubusercontent.com/u/2254731?v=4' }} />
-                    <View style={styles.footer}>
-                        <Text style={styles.name}> Wanderson Castro</Text>
-                        <Text style={styles.bio} numberOfLines={3}> CTO na @Rocketseat. Apaixonado pelas melhores tecnologias de desenvolvimento web e mobile.</Text>
-                    </View>
-                </View>
-
-                <View style={[styles.card, { zIndex: 1 }]} >
-                    <Image style={styles.avatar} source={{ uri: 'https://avatars2.githubusercontent.com/u/2254731?v=4' }} />
-                    <View style={styles.footer}>
-                        <Text style={styles.name}> Wanderson Castro</Text>
-                        <Text style={styles.bio} numberOfLines={3}> CTO na @Rocketseat. Apaixonado pelas melhores tecnologias de desenvolvimento web e mobile.</Text>
-                    </View>
-                </View>
+                ))}
             </View>
             <View style={styles.buttonsContainer}>
                 <TouchableOpacity style={styles.button}>
