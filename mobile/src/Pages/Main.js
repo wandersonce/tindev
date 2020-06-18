@@ -25,20 +25,24 @@ export default function Main({ navigation }) {
         loadUsers();
     }, [id]) // * Everytime that the params id be changed the function will be executed.
 
-    async function handleLike(id) {
-        await api.post(`/devs/${id}/likes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
+    async function handleLike() {
+        const [user, ...rest] = users;
+
+        await api.post(`/devs/${user._id}/likes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
             headers: { user: id },
         })
 
-        setUsers(users.filter(user => user._id !== id));
+        setUsers(rest);
     }
 
-    async function handleDislike(id) {
-        await api.post(`/devs/${id}/dislikes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
+    async function handleDislike() {
+        const [user, ...rest] = users;
+
+        await api.post(`/devs/${user._id}/dislikes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
             headers: { user: id },
         })
 
-        setUsers(users.filter(user => user._id !== id));
+        setUsers(rest);
     }
 
     async function handleLogout() {
@@ -71,12 +75,18 @@ export default function Main({ navigation }) {
                 }
             </View>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button} onPress={handleLike}>
-                    <Image source={like} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handleDislike}>
-                    <Image source={dislike} />
-                </TouchableOpacity>
+                {users.length === 0
+                    ? <View />
+                    : <>
+                        <TouchableOpacity style={styles.button} onPress={handleLike}>
+                            <Image source={like} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={handleDislike}>
+                            <Image source={dislike} />
+                        </TouchableOpacity>
+                    </>
+                }
+
             </View>
         </SafeAreaView>
     )
