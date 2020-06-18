@@ -1,7 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Image, StyleSheet, View, Text } from 'react-native';
+import { SafeAreaView, Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import logo from '../assets/logo.png';
+import like from '../assets/like.png';
+import dislike from '../assets/dislike.png';
 
 export default function Main() {
     return (
@@ -32,7 +34,14 @@ export default function Main() {
                     </View>
                 </View>
             </View>
-            <View />
+            <View style={styles.buttonsContainer}>
+                <TouchableOpacity style={styles.button}>
+                    <Image source={like} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button}>
+                    <Image source={dislike} />
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     )
 }
@@ -84,5 +93,30 @@ const styles = StyleSheet.create({
     },
     logo: {
         marginTop: 30
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        marginBottom: 30
+    },
+    button: {
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: 20,
+
+        //* For android devices you must use only elevation to apply shadows
+        elevation: 2,
+
+        //* For Ios mobile you must specify everything
+        shadowColor: '#000',
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        }
     },
 });
