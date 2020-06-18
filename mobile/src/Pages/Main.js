@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { SafeAreaView, Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 import api from '../services/api';
@@ -40,26 +41,40 @@ export default function Main({ navigation }) {
         setUsers(users.filter(user => user._id !== id));
     }
 
+    async function handleLogout() {
+        await AsyncStorage.clear();
+
+        navigation.navigate('Login');
+    }
 
     return (
         <SafeAreaView style={styles.container}>
-            <Image style={styles.logo} source={logo} />
+
+            <TouchableOpacity onPress={handleLogout}>
+                <Image style={styles.logo} source={logo} />
+            </TouchableOpacity>
+
             <View style={styles.cardContainer}>
-                {user.map((user, index) => (
-                    <View key={user._id} style={[styles.card, { zIndex: user.length - index }]} >
-                        <Image style={styles.avatar} source={{ uri: user.avatar }} />
-                        <View style={styles.footer}>
-                            <Text style={styles.name}> {user.name}</Text>
-                            <Text style={styles.bio} numberOfLines={3}> {user.bio}</Text>
-                        </View>
-                    </View>
-                ))}
+                {users.length === 0
+                    ? <Text style={styles.empty}> You saw everyone!  </Text>
+                    : (
+                        users.map((user, index) => (
+                            <View key={user._id} style={[styles.card, { zIndex: users.length - index }]} >
+                                <Image style={styles.avatar} source={{ uri: user.avatar }} />
+                                <View style={styles.footer}>
+                                    <Text style={styles.name}> {user.name}</Text>
+                                    <Text style={styles.bio} numberOfLines={3}> {user.bio}</Text>
+                                </View>
+                            </View>
+                        ))
+                    )
+                }
             </View>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleLike}>
                     <Image source={like} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleDislike}>
                     <Image source={dislike} />
                 </TouchableOpacity>
             </View>
@@ -139,5 +154,11 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2
         }
+    },
+    empty: {
+        alignSelf: 'center',
+        color: '#999',
+        fontSize: 24,
+        fontWeight: 'bold'
     },
 });
