@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 import { Link } from 'react-router-dom';
 
 import api from '../../services/api';
@@ -23,7 +24,15 @@ export default function Main({ match }) { //* inside the match you will have all
             setUsers(response.data);
         }
         loadUsers();
-    }, [match.params.id]) // * Everytime that the params id be changed the function will be executed.
+    }, [match.params.id]); // * Everytime that the params id be changed the function will be executed.
+
+    useEffect(() => {
+        const socket = io('http://localhost:3333', {
+            query: { user: match.params.id }
+        });
+
+
+    }, [match.params.id]);
 
     async function handleLike(id) {
         await api.post(`/devs/${id}/likes`, null, {  //! The second parameter on a post request is always a body, and the third one will be the headers
