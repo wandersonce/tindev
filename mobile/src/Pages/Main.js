@@ -13,7 +13,7 @@ import itsamatch from '../assets/itsamatch.png';
 export default function Main({ navigation }) {
     const id = navigation.getParam('user');
     const [users, setUsers] = useState([]);
-    const [matchDev, setMatchDev] = useState(true);
+    const [matchDev, setMatchDev] = useState(null);
 
     useEffect(() => {
         async function loadUsers() {
@@ -88,7 +88,8 @@ export default function Main({ navigation }) {
                     )
                 }
             </View>
-            {users.length > 0 && (
+
+            {users.length > 0 && matchDev === null && (
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity style={styles.button} onPress={handleLike}>
                         <Image source={like} />
@@ -98,8 +99,9 @@ export default function Main({ navigation }) {
                     </TouchableOpacity>
                 </View>
             )}
+
             {matchDev && (
-                <View style={styles.matchContainer}>
+                <View style={[styles.matchContainer, { zIndex: users.length }]}>
                     <Image source={itsamatch} style={styles.matchImage} />
                     <Image style={styles.matchAvatar} source={{ uri: matchDev.avatar }} />
 
@@ -196,6 +198,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     matchContainer: {
+        ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(0,0,0,0.8)',
         justifyContent: 'center',
         alignItems: 'center',
@@ -232,4 +235,5 @@ const styles = StyleSheet.create({
         marginTop: 30,
         fontWeight: 'bold'
     },
+
 });
