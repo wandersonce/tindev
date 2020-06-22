@@ -34,7 +34,7 @@ export default function Main({ navigation }) {
         });
 
         socket.on('match', dev => {
-            setMatchdDev(dev);
+            setMatchDev(dev);
         })
 
     }, [id]);
@@ -101,10 +101,10 @@ export default function Main({ navigation }) {
             {matchDev && (
                 <View style={styles.matchContainer}>
                     <Image source={itsamatch} style={styles.matchImage} />
-                    <Image style={styles.matchAvatar} source={{ uri: "https://avatars2.githubusercontent.com/u/51806895?s=460&u=0e14b25bb66fb044daa8ca40c78f91a0abb23ada&v=4" }} />
+                    <Image style={styles.matchAvatar} source={{ uri: matchDev.avatar }} />
 
-                    <Text style={styles.matchName}> Wanderson Castro</Text>
-                    <Text style={styles.matchBio}> Web developer, formed by BCIT, Canada. Passion for solve problem solving and Information ​​Technology development. Always learning more !</Text>
+                    <Text style={styles.matchName}> {matchDev.name}</Text>
+                    <Text style={styles.matchBio}>{matchDev.bio}</Text>
 
                     <TouchableOpacity onPress={() => setMatchDev(null)} >
                         <Text style={styles.closeMatch}>CLOSE</Text>
@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     matchContainer: {
-        ...StyleSheet.absoluteFillObject,
         backgroundColor: 'rgba(0,0,0,0.8)',
         justifyContent: 'center',
         alignItems: 'center',

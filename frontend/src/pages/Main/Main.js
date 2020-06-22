@@ -13,7 +13,7 @@ import './Main.css';
 
 export default function Main({ match }) { //* inside the match you will have all parameters that was sent to this route
     const [users, setUsers] = useState([]);
-    const [matchDev, setMatchdDev] = useState(null);
+    const [matchDev, setMatchDev] = useState(null);
 
     useEffect(() => {
         async function loadUsers() {
@@ -34,7 +34,7 @@ export default function Main({ match }) { //* inside the match you will have all
         });
 
         socket.on('match', dev => {
-            setMatchdDev(dev);
+            setMatchDev(dev);
         })
 
     }, [match.params.id]);
@@ -94,7 +94,7 @@ export default function Main({ match }) { //* inside the match you will have all
                     <strong>{matchDev.name}</strong>
                     <p>{matchDev.bio}</p>
 
-                    <button type="button" onClick={() => setMatchdDev(null)} >Close</button>
+                    <button type="button" onClick={() => setMatchDev(null)} >Close</button>
                 </div>
             )}
         </div>
