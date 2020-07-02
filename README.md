@@ -1,3 +1,17 @@
+# tindev
+### This is an app that simulates the 'TINDER app' but it's called TINDEV because you login using your GITHUB profile login. 
+
+### Using NodeJs as backend and React and React-Native to create the interface on frontend you will be able to like and dislike people who you like. 
+If you and another person like each other at the same time you will have a Match on screen in real time.
+
+### Match Using mobile and web Interface -
+<img src="https://user-images.githubusercontent.com/51806895/86395791-ada90a00-bc55-11ea-83f0-6610e644accc.gif"  width="40%"/>
+
+
+### Mobile Login -
+<img src="https://user-images.githubusercontent.com/51806895/86395864-cb766f00-bc55-11ea-8e33-64d546027c2a.gif"  width="20%"/>
+
+
 
 ## Available Scripts
 
