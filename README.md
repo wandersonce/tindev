@@ -5,12 +5,15 @@
 If you and another person like each other at the same time you will have a Match on screen in real time.
 
 ### Match Using mobile and web Interface -
-<img src="https://user-images.githubusercontent.com/51806895/86395791-ada90a00-bc55-11ea-83f0-6610e644accc.gif"  width="40%"/>
+<img src="https://user-images.githubusercontent.com/51806895/86395791-ada90a00-bc55-11ea-83f0-6610e644accc.gif"  width="60%"/>
 
 
 ### Mobile Login -
 <img src="https://user-images.githubusercontent.com/51806895/86395864-cb766f00-bc55-11ea-8e33-64d546027c2a.gif"  width="20%"/>
 
+
+### LOGIN - Use your github username to login.
+### Please don't forget to run Backend using the command `yarn dev` or `npm dev`.
 
 
 ## Available Scripts
